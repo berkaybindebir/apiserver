@@ -1,4 +1,3 @@
-// Faker.js
 const faker = require("faker");
 
 class User {
@@ -57,22 +56,19 @@ class Post {
 module.exports = {
 	User,
 	Post,
-	createRandomUser: count => {
-		console.log(count);
-		let userCount = count != undefined && count != null ? count : 1;
+	createRandomUser: function(count = 1) {
 		let Users = [];
-		for (let i = 0; i <= userCount; i++) {
+		for (let i = 0; i < count; i++) {
 			let user = new User();
-			Users.push(user);
+			Users.push(user.create());
 		}
 		return Users;
 	},
-	createRandomPost: count => {
-		const postCount = count != undefined && count != null ? count : 1;
-		const Posts = [];
-		for (let i = 1; i <= postCount; i++) {
+	createRandomPost: function(count = 1) {
+		let Posts = [];
+		for (let i = 0; i < count; i++) {
 			let post = new Post();
-			Posts.push(post);
+			Posts.push(post.create());
 		}
 		return Posts;
 	}
