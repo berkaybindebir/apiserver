@@ -3,12 +3,14 @@ const faker = require("faker");
 
 class User {
 	constructor(
+		image = faker.image.avatar(),
 		firstName = faker.name.firstName(),
 		lastName = faker.name.lastName(),
 		mail = faker.internet.email(),
 		phoneNumber = faker.phone.phoneNumber(),
 		job = faker.name.jobTitle()
 	) {
+		this.image = image;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mail = mail;
@@ -18,6 +20,7 @@ class User {
 
 	create() {
 		return {
+			image: this.image,
 			firstName: this.firstName,
 			lastName: this.lastName,
 			fullName: `${this.firstName} ${this.lastName}`,
