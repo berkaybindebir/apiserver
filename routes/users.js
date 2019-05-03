@@ -1,51 +1,37 @@
-const express = require('express')
-const router = express.Router()
-const fakerGenerator = require('../faker-generator')
+const express = require("express");
+const router = express.Router();
+const { User, createRandomUser } = require("../faker-generator");
 
 /* 
   GET random Users like search in DB
   You can easly connect your DB an serving data using a query
 */
-router.get('/', (req, res, next) => {
-  const data = fakerGenerator.createRandomUser(25)
-  res.json(data);
-});
-
-/*
-  GET random users much as query in Paramater
-*/
-router.get('/:count', (req, res, next) => {
-  const count = req.params.count;
-  const data = fakerGenerator.createRandomUser(count);
-  res.json(data);
+router.get("/", (req, res, next) => {
+	const data = createRandomUser(25);
+	res.json(data);
 });
 /*
   GET random user
 */
-router.get('/user', (req, res, next) => {
-  const user = fakerGenerator.createRandomUser();
-  res.json(user);
+router.get("/user", (req, res, next) => {
+	const user = createRandomUser();
+	res.json(user);
 });
-
+/*
+  GET random users much as query in Paramater
+*/
+router.get("/:count", (req, res, next) => {
+	const count = req.params.count;
+	const data = createRandomUser(count);
+	res.json(data);
+});
 /*
   Post User
 */
-router.post('/', (req, res, next) => {
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const fullName = firstName+lastName;
-  const email = req.body.email;
-  const number = req.body.number;
-  
-  const createdUser = {
-    "name": firstName,
-    "lastname": lastName,
-    "fullname": fullName,
-    "email": email,
-    "number": number
-  }
+router.post("/", (req, res, next) => {
+	const { firstName, lastName, email, number } = req.body;
+	const newUser = new User(firstName, lastName, email, number);
+	res.status(200).json(newUser.create());
+});
 
-  res.status(200).json(createdUser);
-})
-
-module.exports = router
+module.exports = router;
